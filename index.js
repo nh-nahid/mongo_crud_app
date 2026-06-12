@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const todoHandler = require('./routeHandler/todoHandler');
+const userHandler = require('./routeHandler/userHandler');
 
 
 const app = express();
@@ -13,6 +14,7 @@ mongoose.connect('mongodb://localhost:27017')
 
 // Application routes
 app.use('/todo', todoHandler);
+app.use('/user', userHandler);
 
 
 
