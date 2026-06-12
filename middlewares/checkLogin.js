@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const checkLogin = (req, res, next) => {
     const { authorization } = req.headers;
 
@@ -10,7 +12,7 @@ const checkLogin = (req, res, next) => {
         req.userId = userId;
 
         next();
-        
+
     } catch (error) {
         next("Authentication failed!");
     }
