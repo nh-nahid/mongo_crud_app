@@ -5,6 +5,53 @@ const todoSchema = require('../schemas/todoSchema');
 
 const Todo = new mongoose.model("Todo", todoSchema);
 
+
+// GET ACTIVE TODOS by instance
+router.get('/active', async (req, res) => {
+    try {
+      const todo = new Todo();
+      const data = await todo.findActive();
+
+      res.status(200).json({
+        data,
+      })
+
+    } catch (error) {
+       res.status(500).json({
+        error: 'There is a server error'
+       })
+    }
+});
+
+// GET ACTIVE TODOS by Static
+router.get('/js', async (req, res) => {
+    try {
+      const data = await Todo.findByJS();
+      res.status(200).json({
+        data,
+      })
+    } catch (error) {
+       res.status(500).json({
+        error: 'There is a server error'
+       })
+    }
+});
+
+// GET ACTIVE TODOS by Query helper
+router.get('/language', async (req, res) => {
+    try {
+      const data = await Todo.find().byLanguage("js");
+
+      res.status(200).json({
+        data,
+      })
+    } catch (error) {
+       res.status(500).json({
+        error: 'There is a server error'
+       })
+    }
+});
+
 // GET ALL THE TODOS
 router.get('/', async (req, res) => {
     try {
