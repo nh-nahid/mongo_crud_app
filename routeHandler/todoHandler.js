@@ -2,8 +2,30 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const todoSchema = require('../schemas/todoSchema');
+const checkLogin = require('../middlewares/checkLogin');
+
 
 const Todo = new mongoose.model("Todo", todoSchema);
+
+
+// GET ALL THE TODOS
+router.get('/', checkLogin, async (req, res) => {
+    try {
+       const result = await Todo.find({status: "active"}).select({
+        _id: 0,
+        __v: 0
+       }).limit(2);
+
+       res.status(200).json({
+        message: "Data loaded successfully",
+        data: result
+       })
+    } catch (error) {
+       res.status(500).json({
+        error: 'There is a server error'
+       })
+    }
+});
 
 
 // GET ACTIVE TODOS by instance
@@ -45,25 +67,6 @@ router.get('/language', async (req, res) => {
       res.status(200).json({
         data,
       })
-    } catch (error) {
-       res.status(500).json({
-        error: 'There is a server error'
-       })
-    }
-});
-
-// GET ALL THE TODOS
-router.get('/', async (req, res) => {
-    try {
-       const result = await Todo.find({status: "active"}).select({
-        _id: 0,
-        __v: 0
-       }).limit(2);
-
-       res.status(200).json({
-        message: "Data loaded successfully",
-        data: result
-       })
     } catch (error) {
        res.status(500).json({
         error: 'There is a server error'

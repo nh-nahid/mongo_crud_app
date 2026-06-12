@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const todoHandler = require('./routeHandler/todoHandler');
 const userHandler = require('./routeHandler/userHandler');
-
+const dotenv = require('dotenv');
 
 const app = express();
 app.use(express.json());
+dotenv.config();
 
 // database connection with mongoose
 mongoose.connect('mongodb://localhost:27017')
